@@ -425,6 +425,12 @@
                     { title: 'Gemini AI相談', desc: 'メンションでAIが質問に回答', icon: 'fa-brain', color: 'blue' },
                     { title: 'リマインダー', desc: 'イベントのスケジュール通知', icon: 'fa-clock', color: 'yellow', isRegular: true },
                     { title: 'モデレーション', desc: 'スパムリンクの自動削除', icon: 'fa-shield-cat', color: 'red' }
+                ],
+                commands: [
+                    { command: '/help', title: 'ヘルプを表示', desc: 'もふもふ2号の全コマンドと使い方を確認できます。', color: 'blue' },
+                    { command: '/ask', title: 'AIに相談', desc: 'Gemini AIに質問して、学習や開発のヒントをもらえます。', color: 'green' },
+                    { command: '/remind', title: 'リマインダー登録', desc: 'イベントや作業予定を忘れないように通知します。', color: 'yellow' },
+                    { command: '/report', title: '運営に報告', desc: '困ったことや気になる投稿を委員会へ共有できます。', color: 'red' }
                 ]
             },
             history: [
@@ -654,6 +660,25 @@
                 </div>
             `).join('');
 
+            const commandColorMap = {
+                blue: 'bg-softblue text-gblue border-gblue/10',
+                green: 'bg-softgreen text-ggreen border-ggreen/10',
+                yellow: 'bg-softyellow text-gyellow border-gyellow/10',
+                red: 'bg-softred text-gred border-gred/10'
+            };
+            const commands = Array.isArray(botData.commands) && botData.commands.length > 0 ? botData.commands : MOCK_DATA.bot.commands;
+            const commandsHtml = commands.map(cmd => {
+                const colorClass = commandColorMap[cmd.color] || commandColorMap.blue;
+                return `
+                <div class="bg-white/75 hover:bg-white rounded-[1.5rem] border border-white p-5 shadow-sm hover:shadow-lg transition-all group">
+                    <div class="flex flex-col sm:flex-row sm:items-center gap-3 mb-3">
+                        <code class="${colorClass} border px-4 py-2 rounded-2xl font-en font-bold text-sm shadow-sm w-fit group-hover:scale-105 transition-transform">${cmd.command}</code>
+                        <h5 class="font-bold text-gdark text-base">${cmd.title}</h5>
+                    </div>
+                    <p class="text-sm text-gray-600 font-medium leading-relaxed">${cmd.desc}</p>
+                </div>`;
+            }).join('');
+
             const botHtml = `
                 <div class="glass-card p-2 rounded-[3rem] bg-gradient-to-br from-softblue via-white to-softgreen border-white">
                     <div class="bg-white/60 backdrop-blur-md p-8 md:p-12 rounded-[2.5rem] flex flex-col md:flex-row gap-10 items-center border border-white shadow-inner">
@@ -675,6 +700,10 @@
                             </div>
                             <h4 class="font-bold text-gdark mb-5 text-lg flex items-center gap-2"><i class="fa-solid fa-star text-gyellow animate-bounce"></i> 主な機能</h4>
                             <div class="grid sm:grid-cols-2 gap-5">${featuresHtml}</div>
+                            <div class="mt-10">
+                                <h4 class="font-bold text-gdark mb-5 text-lg flex items-center gap-2"><i class="fa-solid fa-terminal text-gblue"></i> 使い方・コマンド</h4>
+                                <div class="grid sm:grid-cols-2 gap-5">${commandsHtml}</div>
+                            </div>
                         </div>
                     </div>
                 </div>
