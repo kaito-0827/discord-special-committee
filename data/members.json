@@ -1,0 +1,29 @@
+[
+  {
+    "name": "委員長 Aさん",
+    "role_en": "Server Admin",
+    "role_ja": "「みんながワイワイ話せる雑談チャンネルを作るのが目標です！」",
+    "color": "blue",
+    "iconClass": "fa-user-tie",
+    "detail_profile": "<p>大学では情報工学を専攻し、自然言語処理の研究をしています。AI技術を使った新しいコミュニティの形を模索中！趣味はゲームとカフェ巡りです。</p>",
+    "achievements": "<ul><li>Discordサーバーの初期設計と立ち上げ</li><li>コミュニティガイドラインの策定</li><li>第1回もくもく会の企画・司会</li></ul>"
+  },
+  {
+    "name": "開発 Bさん",
+    "role_en": "Bot Engineer",
+    "role_ja": "「もふもふ2号の親です。欲しい機能があったら気軽にリクエストしてね！」",
+    "color": "green",
+    "iconClass": "fa-laptop-code",
+    "detail_profile": "<p>普段はPythonやJavaScriptを使ってWebアプリやBotを作っています。「もふもふ2号」がみんなの癒やしになれば嬉しいです！</p>",
+    "achievements": "<ul><li>もふもふ2号の要件定義とベース開発</li><li>Gemini API連携機能の実装</li><li>サーバー内の権限ロール自動付与機能の実装</li></ul>"
+  },
+  {
+    "name": "企画 Cさん",
+    "role_en": "Event Planner",
+    "role_ja": "「トレーニングアワーの講師やDiscordの域に収まらない活動をしています！」",
+    "color": "yellow",
+    "iconClass": "fa-calendar-days",
+    "detail_profile": "<p>人と人を繋ぐイベントを考えるのが大好きです。初心者の方でも発言しやすい、あたたかい雰囲気づくりを心がけています。</p>",
+    "achievements": "<ul><li>トレーニングアワーの講師</li><li>その他Discord外でのコミュニティ活動</li></ul>"
+  }
+]

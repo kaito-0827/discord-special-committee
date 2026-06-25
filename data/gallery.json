@@ -1,0 +1,22 @@
+[
+  {
+    "title": "オンライン勉強会",
+    "desc": "みんなでワイワイAIについて語り合っています！",
+    "color": "blue",
+    "iconClass": "fa-people-group"
+  },
+  {
+    "title": "もふもふ2号の日常",
+    "desc": "サーバーのみんなの質問に元気よく回答中！",
+    "color": "green",
+    "iconClass": "fa-robot"
+  },
+  {
+    "title": "もくもく作業用VC",
+    "desc": "BGMを流しながら、各々の開発を進めています。",
+    "color": "yellow",
+    "iconClass": "fa-discord",
+    "isBrand": true,
+    "isWide": true
+  }
+]

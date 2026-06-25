@@ -1,0 +1,55 @@
+name: Deploy GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  schedule:
+    - cron: '*/30 * * * *'
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    env:
+      MICROCMS_SERVICE_DOMAIN: discordgemini
+      MICROCMS_API_KEY: ${{ secrets.MICROCMS_API_KEY }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Fetch microCMS content
+        if: ${{ env.MICROCMS_API_KEY != '' }}
+        run: node scripts/fetch-microcms.mjs
+
+      - name: Use checked-in fallback content
+        if: ${{ env.MICROCMS_API_KEY == '' }}
+        run: echo 'MICROCMS_API_KEY is not configured; deploying checked-in data.'
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload site
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+      - name: Deploy Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

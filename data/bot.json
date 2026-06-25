@@ -1,0 +1,33 @@
+{
+  "name_en": "MofuMofu Mk-II",
+  "subtitle": "コミュニティサポートBot",
+  "greeting": "「みんなのコミュニティライフをサポートするよ〜！<br>わからないことがあったら <code class=\"bg-gdark text-white px-3 py-1 rounded-xl text-sm mx-1 font-en shadow-sm\">/help</code> って聞いてね✨」",
+  "icon": null,
+  "features": [
+    {
+      "title": "ウェルカムメッセージ",
+      "desc": "新規参加者へルールを案内",
+      "icon": "fa-hand-wave",
+      "color": "green"
+    },
+    {
+      "title": "Gemini AI相談",
+      "desc": "メンションでAIが質問に回答",
+      "icon": "fa-brain",
+      "color": "blue"
+    },
+    {
+      "title": "リマインダー",
+      "desc": "イベントのスケジュール通知",
+      "icon": "fa-clock",
+      "color": "yellow",
+      "isRegular": true
+    },
+    {
+      "title": "モデレーション",
+      "desc": "スパムリンクの自動削除",
+      "icon": "fa-shield-cat",
+      "color": "red"
+    }
+  ]
+}

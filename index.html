@@ -407,7 +407,7 @@
         let currentNewsData = [];
 
         // ==========================================
-        // 📦 公開用データ
+        // 📦 CMS取得失敗時のフォールバックデータ
         // ==========================================
         const MOCK_DATA = {
             news: [
@@ -472,7 +472,14 @@
         // 🔄 データ取得関数
         // ==========================================
         async function fetchCMSData(endpoint) {
-            return MOCK_DATA[endpoint];
+            try {
+                const response = await fetch(`./data/${endpoint}.json`, { cache: 'no-cache' });
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                return await response.json();
+            } catch (error) {
+                console.warn(`[${endpoint}] のCMSデータを読み込めないため、フォールバックデータを表示します。`, error);
+                return MOCK_DATA[endpoint];
+            }
         }
 
         // ==========================================
