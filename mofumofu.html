@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="ja" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>もふもふ2号 | Google AI 学生コミュニティ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800&family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"M PLUS Rounded 1c"', 'sans-serif'],
+                        en: ['"Outfit"', 'sans-serif'],
+                    },
+                    colors: {
+                        gblue: '#4285F4',
+                        gred: '#EA4335',
+                        gyellow: '#FBBC05',
+                        ggreen: '#34A853',
+                        gdark: '#3C4043',
+                        softblue: '#e8f0fe',
+                        softred: '#fce8e6',
+                        softyellow: '#fef7e0',
+                        softgreen: '#e6f4ea',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: '"M PLUS Rounded 1c"', sans-serif; }
+        
+        .bg-mesh {
+            background-color: #f8fafc;
+            background-image: 
+                radial-gradient(at 10% 10%, rgba(66, 133, 244, 0.15) 0px, transparent 50%),
+                radial-gradient(at 90% 10%, rgba(234, 67, 53, 0.12) 0px, transparent 50%),
+                radial-gradient(at 10% 90%, rgba(251, 188, 5, 0.15) 0px, transparent 50%),
+                radial-gradient(at 90% 90%, rgba(52, 168, 83, 0.12) 0px, transparent 50%),
+                radial-gradient(at 50% 50%, rgba(255, 255, 255, 0.8) 0px, transparent 100%);
+            background-attachment: fixed;
+            background-size: cover;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 8px 32px 0 rgba(32, 33, 36, 0.05);
+        }
+        
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .gradient-text-animate {
+            background: linear-gradient(270deg, #4285F4, #EA4335, #FBBC05, #34A853, #4285F4);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientShift 6s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(3deg); }
+        }
+        .animate-float { animation: float 6s ease-in-out infinite; }
+        
+        @keyframes float-slow {
+            0%, 100% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(-30px) scale(1.05); }
+        }
+        .animate-float-slow { animation: float-slow 10s ease-in-out infinite; }
+
+        .blob-shape {
+            border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+            animation: morph 8s ease-in-out infinite alternate;
+        }
+        @keyframes morph {
+            0% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
+            100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+        }
+
+        /* ふきだしスタイル */
+        .chat-bubble {
+            position: relative;
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid #e5e7eb;
+        }
+        .chat-bubble::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: -10px;
+            transform: translateY(-50%);
+            border-width: 10px 10px 10px 0;
+            border-style: solid;
+            border-color: transparent #e5e7eb transparent transparent;
+        }
+        .chat-bubble::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: -7px;
+            transform: translateY(-50%);
+            border-width: 8px 8px 8px 0;
+            border-style: solid;
+            border-color: transparent rgba(255, 255, 255, 0.9) transparent transparent;
+        }
+    </style>
+</head>
+<body id="top" class="bg-mesh text-gray-800 antialiased selection:bg-gblue selection:text-white relative overflow-x-hidden">
+
+    <!-- 背景の装飾オブジェクト -->
+    <div class="fixed top-20 right-10 w-72 h-72 bg-gblue/10 blob-shape blur-2xl -z-10 pointer-events-none animate-float-slow"></div>
+    <div class="fixed bottom-20 left-10 w-96 h-96 bg-gyellow/10 blob-shape blur-2xl -z-10 pointer-events-none animate-float-slow" style="animation-delay: -3s;"></div>
+
+    <!-- ナビゲーション -->
+    <nav class="glass-nav fixed w-full z-50 transition-all duration-300">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="flex justify-between items-center h-20">
+                <a href="index.html" class="font-bold text-gdark flex items-center gap-2 group hover:text-gblue transition-colors">
+                    <div class="bg-gray-100 p-2 rounded-full group-hover:bg-softblue transition-colors w-8 h-8 flex items-center justify-center">
+                        <i class="fa-solid fa-arrow-left"></i>
+                    </div>
+                    <span class="text-sm">委員会トップへ戻る</span>
+                </a>
+                <div class="flex items-center gap-3">
+                    <span class="font-en font-bold tracking-widest text-gdark">MOFUMOFU</span>
+                    <i class="fa-solid fa-robot text-gblue text-xl animate-bounce"></i>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ヒーローセクション -->
+    <header class="pt-32 pb-16 px-4 relative flex items-center justify-center">
+        <div class="max-w-4xl mx-auto text-center z-10">
+            
+            <div class="relative inline-block mb-8">
+                <!-- 後光エフェクト -->
+                <div class="absolute inset-0 bg-gradient-to-tr from-softblue to-softgreen blob-shape animate-morph opacity-80 blur-lg scale-150 -z-10"></div>
+                
+                <div id="hero-icon" class="w-48 h-48 mx-auto bg-white/90 backdrop-blur-md blob-shape flex items-center justify-center shadow-2xl border-4 border-white animate-float relative z-10 group overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-br from-gblue/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <i class="fa-solid fa-robot text-[5.5rem] text-gdark group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 drop-shadow-md"></i>
+                </div>
+                <!-- キラキラ -->
+                <div class="absolute -top-4 -right-4 text-3xl animate-bounce text-gyellow z-20">✨</div>
+                <div class="absolute bottom-4 -left-4 text-2xl animate-pulse text-gblue z-20">🌟</div>
+            </div>
+            
+            <p id="hero-subtitle" class="text-sm font-en font-bold text-gblue bg-softblue py-1.5 px-4 rounded-full mb-4 inline-block border border-white shadow-sm tracking-widest">COMMUNITY SUPPORT BOT</p>
+            
+            <h1 id="hero-title" class="text-4xl md:text-6xl font-bold mb-6 text-gdark tracking-tight leading-tight font-en">
+                MofuMofu Mk-II
+            </h1>
+            
+            <p class="text-lg text-gray-600 mb-8 max-w-xl mx-auto leading-relaxed font-bold">
+                Google AI 学生コミュニティのDiscordサーバーで稼働中！<br>
+                みんなが楽しく交流できるようにサポートするよ☁️
+            </p>
+            
+        </div>
+    </header>
+
+    <!-- メインコンテンツ -->
+    <main class="max-w-4xl mx-auto px-4 py-8 space-y-24">
+
+        <!-- 挨拶・プロフィール -->
+        <section class="glass-card p-6 md:p-10 rounded-[3rem] border border-white relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-softgreen blob-shape -z-10 opacity-50"></div>
+            
+            <div class="flex flex-col md:flex-row items-center gap-8">
+                <div id="greeting-icon" class="w-32 h-32 bg-white rounded-full flex items-center justify-center shadow-md border-4 border-softgreen shrink-0 overflow-hidden">
+                    <i class="fa-solid fa-face-smile-wink text-6xl text-ggreen"></i>
+                </div>
+                <div class="chat-bubble p-6 rounded-2xl w-full">
+                    <p id="greeting-text" class="text-lg font-bold text-gdark leading-relaxed">
+                        「はじめまして！もふもふ2号です。<br>
+                        Discordサーバーのみんなが仲良く、快適に過ごせるようにお手伝いしているよ。<br>
+                        AIのことでも、雑談でも、気軽に話しかけてね！」
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 出来ること（機能） -->
+        <section>
+            <div class="flex flex-col items-center mb-10 text-center">
+                <span class="font-en text-gyellow font-bold tracking-widest text-sm mb-2">FEATURES</span>
+                <h2 class="text-3xl font-bold text-gdark">もふもふ2号にできること</h2>
+            </div>
+            
+            <div id="features-list" class="grid sm:grid-cols-2 gap-6">
+                <!-- JSでデータが挿入されます -->
+                <div class="col-span-2 text-center text-gray-400 py-10">Loading...</div>
+            </div>
+        </section>
+
+        <!-- コマンド一覧 -->
+        <section class="glass-card p-8 md:p-12 rounded-[3rem] border border-white">
+            <div class="flex flex-col items-center mb-8 text-center">
+                <span class="font-en text-gdark font-bold tracking-widest text-sm mb-2">COMMANDS</span>
+                <h2 class="text-3xl font-bold text-gdark">使い方・コマンド</h2>
+                <p class="text-gray-600 mt-3 font-medium">Discordのチャット欄で <code>/</code> を入力すると使えるコマンドだよ！</p>
+            </div>
+
+            <div id="commands-list" class="space-y-4">
+                <!-- JSでデータが挿入されます -->
+                <div class="text-center text-gray-400 py-4">Loading...</div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- フッター -->
+    <footer class="glass-nav mt-20 pt-16 pb-8 text-center relative border-t border-white/80">
+        <div class="max-w-4xl mx-auto px-4 relative z-10">
+            <h3 class="text-2xl font-bold mb-4 text-gdark">サーバーで待ってるよ！</h3>
+            <p class="text-gray-600 text-sm mb-8 max-w-lg mx-auto leading-relaxed font-medium">
+                Google AI 学生コミュニティへの参加は下記のボタンからお願いします。<br>
+                サーバーに入ったら、ぜひ私に話しかけてね！
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4 mb-10">
+                <a href="https://sites.google.com/qutori.jp/gemini-student-community/" target="_blank" rel="noopener noreferrer" class="bg-white text-gdark px-8 py-4 rounded-full font-bold hover:bg-gray-50 transition-all shadow-md hover:shadow-lg hover:-translate-y-1 border border-gray-100 flex items-center justify-center gap-2 group">
+                    <i class="fa-brands fa-discord text-gblue group-hover:animate-bounce"></i> コミュニティに参加する
+                </a>
+                <a href="index.html" class="glass-card text-gdark px-8 py-4 rounded-full font-bold hover:bg-white transition-all shadow-sm flex items-center justify-center gap-2 group">
+                    <i class="fa-solid fa-house"></i> 委員会ページに戻る
+                </a>
+            </div>
+            <div class="border-t border-gray-200/60 pt-8">
+                <p class="text-gray-400 text-xs font-en tracking-wider">&copy; 2026 Google AI Student Community - Discord Committee.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- microCMS連携とDOM構築用のスクリプト -->
+    <script>
+
+        // ==========================================
+        // 📦 モックデータ
+        // ==========================================
+        const MOCK_DATA = {
+            bot: {
+                name_en: 'MofuMofu Mk-II',
+                subtitle: 'コミュニティサポートBot',
+                greeting: '「みんなのコミュニティライフをサポートするよ〜！<br>わからないことがあったら <code class="bg-gdark text-white px-3 py-1 rounded-xl text-sm mx-1 font-en shadow-sm">/help</code> って聞いてね✨」',
+                icon: null,
+                features: [
+                    { title: 'ウェルカムメッセージ', desc: '新規参加者へルールを案内', icon: 'fa-hand-wave', color: 'green' },
+                    { title: 'Gemini AI相談', desc: 'メンションでAIが質問に回答', icon: 'fa-brain', color: 'blue' },
+                    { title: 'リマインダー', desc: 'イベントのスケジュール通知', icon: 'fa-clock', color: 'yellow', isRegular: true },
+                    { title: 'モデレーション', desc: 'スパムリンクの自動削除', icon: 'fa-shield-cat', color: 'red' }
+                ],
+                commands: [
+                    { command: '/help', title: 'ヘルプを表示', desc: 'もふもふ2号の全コマンドと使い方の一覧を表示します。', color: 'yellow' },
+                    { command: '/ask [質問]', title: 'AIに質問する', desc: 'Geminiモデルを使って、入力した質問に対して回答を生成します。', color: 'blue' },
+                    { command: '/ping', title: '生存確認', desc: 'Botが正常に稼働しているか確認します。「Pong!」と返ってきたら元気です。', color: 'green' }
+                ]
+            }
+        };
+
+        // ==========================================
+        // 🔄 データ取得関数
+        // ==========================================
+        async function fetchCMSData(endpoint) {
+            try {
+                const response = await fetch(`./data/${endpoint}.json`, { cache: 'no-cache' });
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                const data = await response.json();
+                return data.contents || data;
+            } catch (error) {
+                console.warn(`[${endpoint}] のデータ取得に失敗したため、フォールバックデータを表示します。`, error);
+                return MOCK_DATA[endpoint];
+            }
+        }
+
+        // ==========================================
+        // 🎨 DOM レンダリング処理
+        // ==========================================
+        async function renderBotData() {
+            const botData = await fetchCMSData('bot');
+            
+            // アイコンHTML生成
+            const heroIconHtml = botData.icon?.url 
+                ? `<img src="${botData.icon.url}" alt="${botData.name_en}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">`
+                : `<div class="absolute inset-0 bg-gradient-to-br from-gblue/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                   <i class="fa-solid fa-robot text-[5.5rem] text-gdark group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 drop-shadow-md"></i>`;
+            
+            const greetingIconHtml = botData.icon?.url
+                ? `<img src="${botData.icon.url}" alt="${botData.name_en}" class="w-full h-full object-cover rounded-full">`
+                : `<i class="fa-solid fa-face-smile-wink text-6xl text-ggreen"></i>`;
+
+            // ヒーローセクションへの反映
+            document.getElementById('hero-title').textContent = botData.name_en;
+            document.getElementById('hero-subtitle').textContent = botData.subtitle;
+            document.getElementById('hero-icon').innerHTML = heroIconHtml;
+
+            // 挨拶・プロフィールへの反映
+            document.getElementById('greeting-text').innerHTML = botData.greeting;
+            document.getElementById('greeting-icon').innerHTML = greetingIconHtml;
+
+            // 出来ること（機能）の反映
+            const featuresHtml = botData.features.map(f => {
+                // 色に応じてホバー時の回転方向を変える（ちょっとした遊び心）
+                const rotateClass = (f.color === 'blue' || f.color === 'yellow') ? 'group-hover:rotate-12' : 'group-hover:-rotate-12';
+                return `
+                <div class="bg-white/80 p-8 rounded-[2rem] border border-white hover:shadow-xl hover:-translate-y-2 transition-all group">
+                    <div class="w-16 h-16 bg-soft${f.color} text-g${f.color} rounded-2xl flex items-center justify-center text-3xl mb-5 ${rotateClass} transition-transform">
+                        <i class="fa-${f.isRegular ? 'regular' : 'solid'} ${f.icon}"></i>
+                    </div>
+                    <h3 class="font-bold text-xl text-gdark mb-3">${f.title}</h3>
+                    <p class="text-gray-600 font-medium text-sm leading-relaxed">${f.desc}</p>
+                </div>`;
+            }).join('');
+            
+            document.getElementById('features-list').innerHTML = featuresHtml;
+
+            // コマンド一覧の反映
+            const commandsHtml = (botData.commands || []).map(c => `
+                <div class="bg-gdark text-white p-5 rounded-2xl flex flex-col md:flex-row md:items-center justify-between gap-4 border border-gray-700 shadow-lg">
+                    <div class="flex items-center gap-3">
+                        <code class="bg-gray-800 text-g${c.color || 'blue'} font-en font-bold px-3 py-1.5 rounded-lg text-lg border border-gray-600">${c.command}</code>
+                        <span class="font-bold">${c.title}</span>
+                    </div>
+                    <p class="text-gray-400 text-sm md:text-right">${c.desc}</p>
+                </div>
+            `).join('');
+            
+            document.getElementById('commands-list').innerHTML = commandsHtml || '<p class="text-center text-gray-400">コマンドはまだ登録されていません。</p>';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderBotData();
+        });
+    </script>
+</body>
+</html>
