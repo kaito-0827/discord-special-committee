@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>もふもふ2号 | Google AI 学生コミュニティ</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="./config.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -280,12 +281,26 @@
         // 🔄 データ取得関数
         // ==========================================
         async function fetchCMSData(endpoint) {
+            const workerBaseUrl = window.CMS_WORKER_BASE_URL?.replace(/\/$/, '');
+
             try {
-                const response = await fetch(`./data/${endpoint}.json`, { cache: 'no-cache' });
+                const url = workerBaseUrl ? `${workerBaseUrl}/${endpoint}` : `./data/${endpoint}.json`;
+                const response = await fetch(url, { cache: 'no-cache' });
                 if (!response.ok) throw new Error(`HTTP ${response.status}`);
                 const data = await response.json();
                 return data.contents || data;
             } catch (error) {
+                if (workerBaseUrl) {
+                    try {
+                        const fallbackResponse = await fetch(`./data/${endpoint}.json`, { cache: 'no-cache' });
+                        if (fallbackResponse.ok) {
+                            const fallbackData = await fallbackResponse.json();
+                            return fallbackData.contents || fallbackData;
+                        }
+                    } catch (fallbackError) {
+                        console.warn(`[${endpoint}] の静的フォールバック取得にも失敗しました。`, fallbackError);
+                    }
+                }
                 console.warn(`[${endpoint}] のデータ取得に失敗したため、フォールバックデータを表示します。`, error);
                 return MOCK_DATA[endpoint];
             }

@@ -1,0 +1,10 @@
+name = "discord-special-committee-cms"
+main = "src/index.js"
+compatibility_date = "2026-06-26"
+account_id = "237465ab4d623622365bfbcbf0cee069"
+workers_dev = true
+preview_urls = true
+
+[vars]
+MICROCMS_SERVICE_DOMAIN = "discordgemini"
+ALLOWED_ORIGIN = "https://kaito-0827.github.io"
